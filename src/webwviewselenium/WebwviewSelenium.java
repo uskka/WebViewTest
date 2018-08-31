@@ -172,8 +172,12 @@ public class WebwviewSelenium {
             
             ScrollNumber += 1350;
         }
-    }    
-        
+    } 
+    
+        public static void ScreenMaker(String book, String[] Sections){
+            
+            
+        }
         public static void Compare(){
             
         String TemplateDBUrl;

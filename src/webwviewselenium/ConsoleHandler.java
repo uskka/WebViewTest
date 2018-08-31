@@ -27,16 +27,47 @@ public class ConsoleHandler {
         
         Scanner scan = new Scanner(System.in);
         
-        System.out.println("available commands: ScanTemplate , ClearTemplate , NewLocalScan , ClearScanFolder , close");
+        System.out.println("scan , clear , close");
         String input = scan.nextLine();
         
        
-        
+        while(true){
         switch(input){
          
-            case "ScanTemplate" :
-            ScanTemplate(driver);   
+            case "scan" :
+            System.out.println("template or new");  
+            String input2 = scan.nextLine();  
+            
+            switch(input2){
+                case"template":
+                System.out.println("which book?(demo contains only biology type y and press enter or leave if u are not happy with the output I am doing my best)");  
+                String input3 = scan.nextLine();
                 
+                switch(input3){
+                    case"y":
+                    NuberOfSections();    
+                    System.out.println("");  
+                    String input3 = scan.nextLine();
+                    switch(input4){
+                        
+                        
+                    }    
+                    break;
+                    
+                    default:
+                    System.out.println("Wrong input");    
+                }
+                break;
+                
+                case"new":
+                    
+                break;
+                
+                default:
+                System.out.println("Wrong input");    
+                
+            }
+            
             break;
          
             case "ClearTemplate" :
@@ -55,8 +86,13 @@ public class ConsoleHandler {
             case"ClearScanFolder":
             ClearScanFolder();
             break;
-                
+            
+            default:
+            System.out.println("Wrong input");
+            break;
+            
+            
         }
         
         
-}}
+        }}}

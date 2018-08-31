@@ -1,19 +1,47 @@
     
-package webwviewselenium;
+
 
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 
 import java.io.FileNotFoundException;
 import java.io.FileReader;
+import java.io.IOException;
 import java.lang.reflect.Array;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
+import org.json.simple.parser.ParseException;
 
 public class JsonRead {
+    
+    public static int NuberOfSections(String book) throws FileNotFoundException{
+    JSONParser parser = new JSONParser();
 
+    switch(book){
+        case"Biology": 
+    {
+        try {
+            Object object = parser.parse(new FileReader("/Users/stefanmac/Documents/json.json"));
+            JSONObject jsonObject = (JSONObject)object;
+            int size = jsonObject.size()/2;
+            return size;
+            
+            
+        } catch (IOException ex) {
+            Logger.getLogger(JsonRead.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (ParseException ex) {
+            Logger.getLogger(JsonRead.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+        break;        
+        
+    }
+        
+    }
     
     public static void JsonRead() { // file read
         
