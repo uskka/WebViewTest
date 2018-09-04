@@ -1,5 +1,4 @@
-    
-
+package webwviewselenium;
 
 import java.io.FileNotFoundException;
 import java.io.FileReader;
@@ -18,7 +17,7 @@ import org.json.simple.parser.ParseException;
 
 public class JsonHendler {
     
-    public static int NuberOfSections(String book) throws FileNotFoundException{
+    public static int NuberOfSections(String book) throws FileNotFoundException, ParseException{
     JSONParser parser = new JSONParser();
 
     switch(book){
