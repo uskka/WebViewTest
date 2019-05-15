@@ -18,7 +18,7 @@ import org.json.simple.parser.ParseException;
 
 public class JsonHendler {
     
-    public static int NuberOfSections(String book) throws FileNotFoundException{
+    public static int NuberOfSections(String book) throws FileNotFoundException, ParseException{
     JSONParser parser = new JSONParser();
 
     switch(book){
@@ -43,6 +43,51 @@ public class JsonHendler {
     }
     
     public static void JsonRead() { // file read
+        
+        JSONParser parser = new JSONParser();
+        try
+        {
+            Object object = parser.parse(new FileReader("/Users/stefanmac/Documents/json.json"));
+            
+            //convert Object to JSONObject
+            JSONObject jsonObject = (JSONObject)object;
+            
+            //Reading the String
+//            String name = (String) jsonObject.get("Name");
+//            Long age = (Long) jsonObject.get("Age");
+            
+            //Reading the array
+            JSONArray countries = (JSONArray)jsonObject.get("1.0"); //array i nazwa
+            
+            
+            //Printing all the values
+          
+            System.out.println("Array:");
+            
+            for(int a=0;a<countries.size();a++){
+            
+             System.out.println(countries.get(a)); //sciaganie jednego stringa z indexu 1
+            }
+           
+           
+            
+//            for(Object country : countries)
+//            {
+//                System.out.println(country.toString());
+//            }
+        }
+        catch(FileNotFoundException fe)
+        {
+            fe.printStackTrace();
+        }
+        catch(Exception e)
+        {
+            e.printStackTrace();
+        }
+        
+    }
+    
+        public static void Json() { // file read
         
         JSONParser parser = new JSONParser();
         try
