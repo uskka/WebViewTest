@@ -93,7 +93,7 @@ public class XMLHendler {
 
         String PathToThisClass = new File(XMLHendler.class.getProtectionDomain().getCodeSource().getLocation().toURI()).getPath();
         System.out.print(PathToThisClass);
-        return PathToThisClass.substring(0, PathToThisClass.length() - 13) + "JsonDB/Config.xml";
+        return PathToThisClass.substring(0, PathToThisClass.length() - 13) + "XMLdb/Config.xml";
 
     }
 
@@ -101,11 +101,9 @@ public class XMLHendler {
         //if there is no driver with this type in config.xml returns null
 
         try {
-            String PathToThisClass = new File(XMLHendler.class.getProtectionDomain().getCodeSource().getLocation().toURI()).getPath();
-            System.out.print(PathToThisClass);
-            String PathToXMLConfig = PathToThisClass.substring(0, PathToThisClass.length() - 13) + "JsonDB/Config.xml";
 
-            File fXmlFile = new File(PathToXMLConfig);
+
+            File fXmlFile = new File(PathToXmlConfig());
             DocumentBuilderFactory dbFactory = DocumentBuilderFactory.newInstance();
             DocumentBuilder dBuilder = dbFactory.newDocumentBuilder();
             Document doc = (Document) dBuilder.parse(fXmlFile);
