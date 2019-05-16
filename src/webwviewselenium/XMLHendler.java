@@ -102,7 +102,6 @@ public class XMLHendler {
 
         try {
 
-
             File fXmlFile = new File(PathToXmlConfig());
             DocumentBuilderFactory dbFactory = DocumentBuilderFactory.newInstance();
             DocumentBuilder dBuilder = dbFactory.newDocumentBuilder();
@@ -134,7 +133,7 @@ public class XMLHendler {
 
     }
 
-    public static void changeDriverPath(String DriverType,String path) throws TransformerConfigurationException, TransformerException, org.xml.sax.SAXException, URISyntaxException {
+    public static void changeDriverPath(String DriverType, String path) throws TransformerConfigurationException, TransformerException, org.xml.sax.SAXException, URISyntaxException {
 
         try {
             String filepath = PathToXmlConfig();
@@ -142,20 +141,16 @@ public class XMLHendler {
             DocumentBuilder docBuilder = docFactory.newDocumentBuilder();
             Document doc = docBuilder.parse(filepath);
 
-           
-
             // Get the staff element , it may not working if tag has spaces, or
             // whatever weird characters in front...it's better to use
             // getElementsByTagName() to get it directly.
             // Node staff = company.getFirstChild();
             // Get the staff element by tag name directly
-           doc.getDocumentElement().normalize();
+            doc.getDocumentElement().normalize();
 
             NodeList list = doc.getElementsByTagName("WebDriver");
 
             // loop the staff child node
-            
-
             for (int i = 0; i < list.getLength(); i++) {
 
                 Node node = list.item(i);
@@ -164,29 +159,27 @@ public class XMLHendler {
                     Element eElement = (Element) node;
                     String DriverTypeTemp = eElement.getAttribute("DriverType");
                     if (DriverTypeTemp.equals(DriverType)) {
-                     
+
                         eElement.getElementsByTagName("Path").item(0).setTextContent(path);
                     }
-                    
 
-                }}
+                }
+            }
 
-                // write the content into xml file
-                TransformerFactory transformerFactory = TransformerFactory.newInstance();
-                Transformer transformer = transformerFactory.newTransformer();
-                DOMSource source = new DOMSource(doc);
-                StreamResult result = new StreamResult(new File(filepath));
-                transformer.transform(source, result);
+            // write the content into xml file
+            TransformerFactory transformerFactory = TransformerFactory.newInstance();
+            Transformer transformer = transformerFactory.newTransformer();
+            DOMSource source = new DOMSource(doc);
+            StreamResult result = new StreamResult(new File(filepath));
+            transformer.transform(source, result);
 
-               
-
-            }catch (ParserConfigurationException pce) {
+        } catch (ParserConfigurationException pce) {
             pce.printStackTrace();
-        }catch (TransformerException tfe) {
+        } catch (TransformerException tfe) {
             tfe.printStackTrace();
-        }catch (IOException ioe) {
+        } catch (IOException ioe) {
             ioe.printStackTrace();
         }
-        }
-
     }
+
+}

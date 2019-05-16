@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Books>
+	<Book Name="Biology">
+		<FirstPageURL>/Users/stefanmac/Downloads/Drivers/chromedriver</FirstPageURL>
+                <LastPageURL>/Users/stefanmac/Downloads/Drivers/chromedriver</LastPageURL>
+                <AverageScanTime>800</AverageScanTime>
+                
+		
+	</Book>
+	
+</Books>

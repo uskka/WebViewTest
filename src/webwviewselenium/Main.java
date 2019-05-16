@@ -11,29 +11,19 @@ import java.io.IOException;
 import org.json.simple.parser.ParseException;
 import static webwviewselenium.ConsoleHandler.Console;
 
-
 public class Main {
-    
-    	public static void main(String[] args) throws IOException, FileNotFoundException, ParseException {
+
+    public static void main(String[] args) throws IOException, FileNotFoundException, ParseException {
 
 //Console();
+        EventQueue.invokeLater(new Runnable() {
+            @Override
+            public void run() {
+                new MainFrame();
 
+            }
+        });
 
+    }
 
-		EventQueue.invokeLater(new Runnable() {
-			@Override
-			public void run() {
-                            new MainFrame();
-                            
-                            
-			}
-		});
-                
-            
 }
-    
-}
-
-
-
-
