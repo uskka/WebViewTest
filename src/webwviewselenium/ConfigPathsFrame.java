@@ -10,6 +10,9 @@ import java.awt.GridLayout;
 import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.net.URISyntaxException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.JButton;
 import javax.swing.JFileChooser;
 import javax.swing.JFrame;
@@ -18,6 +21,11 @@ import javax.swing.JLayeredPane;
 import javax.swing.JTextField;
 import javax.swing.filechooser.FileNameExtensionFilter;
 import javax.swing.filechooser.FileSystemView;
+import javax.xml.transform.TransformerConfigurationException;
+import javax.xml.transform.TransformerException;
+import org.xml.sax.SAXException;
+import static webwviewselenium.XMLHendler.GetDriverPath;
+import static webwviewselenium.XMLHendler.changeDriverPath;
 
 
 public class ConfigPathsFrame extends JFrame implements ActionListener {
@@ -27,9 +35,9 @@ public class ConfigPathsFrame extends JFrame implements ActionListener {
     JButton scan = new JButton("Scan");
     JButton compare = new JButton("Compare");
     JButton Back = new JButton("Back");
-    JButton Driver = new JButton("Driver path");
-    JTextField DriverPath = new JTextField(100);
-    JButton Config = new JButton("Config json path");
+    JButton ChromeDriver = new JButton("Chrome driver path");
+    JTextField ChromeDriverPath = new JTextField(100);
+    JButton Config = new JButton("Config xml path");
     JTextField ConfigPath = new JTextField(100);
     
     public ConfigPathsFrame() {
@@ -43,9 +51,11 @@ public class ConfigPathsFrame extends JFrame implements ActionListener {
         int y = (int) (screenSize.getHeight() / 2);
         setLocation(x, y);
         
+        ChromeDriverPath.setText(GetDriverPath("Chrome"));
+        
         Config.addActionListener(this);
-        Driver.addActionListener(this);
-        DriverPath.addActionListener(this);
+        ChromeDriver.addActionListener(this);
+        ChromeDriverPath.addActionListener(this);
         scan.addActionListener(this);
         compare.addActionListener(this);
         Back.addActionListener(this);
@@ -54,8 +64,8 @@ public class ConfigPathsFrame extends JFrame implements ActionListener {
         
         add(Config);
         add(ConfigPath);
-        add(Driver);
-        add(DriverPath);
+        add(ChromeDriver);
+        add(ChromeDriverPath);
         
         add(Back);
         
@@ -78,8 +88,12 @@ public class ConfigPathsFrame extends JFrame implements ActionListener {
             np.setVisible(true);
 
        }
-        if (source == Driver) {
-        DriverChooserDriver();
+        if (source == ChromeDriver) {
+           try {
+               DriverChooserDriver();
+           } catch (TransformerException ex) {
+               Logger.getLogger(ConfigPathsFrame.class.getName()).log(Level.SEVERE, null, ex);
+           }
 
        }
         if (source == Config) {
@@ -88,24 +102,28 @@ public class ConfigPathsFrame extends JFrame implements ActionListener {
        }
     }
 
-public void DriverChooserDriver() {
+public void DriverChooserDriver() throws TransformerException {
 
 		JFileChooser jfc = new JFileChooser(FileSystemView.getFileSystemView().getHomeDirectory());
-		jfc.setDialogTitle("Select an image");
+		jfc.setDialogTitle("Select chromedriver");
 		jfc.setAcceptAllFileFilterUsed(false);
 		//file name filter could be added
 		int returnValue = jfc.showOpenDialog(null);
 		if (returnValue == JFileChooser.APPROVE_OPTION) {
 			
 		}
-                DriverPath.setText(jfc.getSelectedFile().getPath());
-
+                ChromeDriverPath.setText(jfc.getSelectedFile().getPath());
+        try {
+            changeDriverPath("Chrome",ChromeDriverPath.getText());
+        } catch (TransformerConfigurationException | SAXException | URISyntaxException ex) {
+            Logger.getLogger(ConfigPathsFrame.class.getName()).log(Level.SEVERE, null, ex);
+        }
 	}
 
 public void DriverChooserConfig() {
 
 		JFileChooser jfc = new JFileChooser(FileSystemView.getFileSystemView().getHomeDirectory());
-		jfc.setDialogTitle("Select config .json");
+		jfc.setDialogTitle("Select config .xml");
 		jfc.setAcceptAllFileFilterUsed(false);
 		FileNameExtensionFilter filter = new FileNameExtensionFilter("json file", "json");
 		jfc.addChoosableFileFilter(filter);

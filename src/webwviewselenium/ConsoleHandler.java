@@ -19,7 +19,7 @@ import webwviewselenium.WebwviewSelenium;
 public class ConsoleHandler {
     
     public static void Console(){
-        System.setProperty("webdriver.chrome.driver", "/Users/stefanmac/Downloads/chromedriver");
+        System.setProperty("webdriver.chrome.driver", "/Users/stefanmac/NetBeansProjects/WebwviewSelenium/build/classes/chromedriver");
         ChromeOptions chromeOptions = new ChromeOptions();
         chromeOptions.addArguments("--headless");
         chromeOptions.addArguments("window-size=1024,1500");

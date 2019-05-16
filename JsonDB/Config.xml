@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?><Paths>
+	<WebDriver DriverType="Chrome">
+		<Path>/Users/stefanmac/Downloads/Drivers/chromedriver</Path>
+		
+	</WebDriver>
+	
+</Paths>
