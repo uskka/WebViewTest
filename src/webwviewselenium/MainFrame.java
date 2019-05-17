@@ -52,13 +52,13 @@ public class MainFrame extends JFrame implements ActionListener {
 
         if (source == settings) {
             dispose();
-            SettingsFrame np = new SettingsFrame();  //NewJframe is the name of my next Jframe that would be shown
+            SettingsFrame np = new SettingsFrame();  
             np.setVisible(true);
 
         }
         if (source == scan) {
             dispose();
-            ScanFrame np = new ScanFrame();  //NewJframe is the name of my next Jframe that would be shown
+            ScanFrame np = new ScanFrame();  
             np.setVisible(true);
 
         }

@@ -5,6 +5,7 @@
  */
 package webwviewselenium;
 
+import static java.awt.BorderLayout.CENTER;
 import java.awt.Font;
 import java.awt.GridLayout;
 import java.awt.Toolkit;
@@ -47,7 +48,7 @@ public class ConfigPathsFrame extends JFrame implements ActionListener {
         int x = (int) (screenSize.getWidth() / 2);
         int y = (int) (screenSize.getHeight() / 2);
         setLocation(x, y);
-
+        setLayout(new GridLayout(3, 2));
         ChromeDriverPath.setText(GetDriverPath("Chrome"));
 
         Config.addActionListener(this);
@@ -62,9 +63,9 @@ public class ConfigPathsFrame extends JFrame implements ActionListener {
         add(ChromeDriver);
         add(ChromeDriverPath);
 
-        add(Back);
+        add(Back,CENTER);
 
-        setLayout(new GridLayout(3, 2));
+        
 
         setVisible(true);
 

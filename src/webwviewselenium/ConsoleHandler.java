@@ -43,12 +43,7 @@ public class ConsoleHandler {
 
                             switch (input3) {
                                 case "y":
-                                    NuberOfSections();
-                                    System.out.println("");
-                                    String input3 = scan.nextLine();
-                                    switch (input4) {
-
-                                    }
+                                   
                                     break;
 
                                 default:
