@@ -1,5 +1,6 @@
-package webwviewselenium;
+package webwviewselenium.GUI;
 
+import webwviewselenium.GUI.MainFrame;
 import java.awt.GridLayout;
 import java.awt.Toolkit;
 import java.awt.event.ActionEvent;

@@ -5,6 +5,7 @@
  */
 package webwviewselenium;
 
+import webwviewselenium.GUI.MainFrame;
 import java.awt.EventQueue;
 import java.io.FileNotFoundException;
 import java.io.IOException;

@@ -1,4 +1,4 @@
-package webwviewselenium;
+package webwviewselenium.GUI;
 
 import java.awt.Color;
 import java.awt.GraphicsDevice;

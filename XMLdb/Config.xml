@@ -4,5 +4,15 @@
 		<Path>/Users/stefanmac/Downloads/Drivers/chromedriver</Path>
 		
 	</WebDriver>
+        
+        <DB Type="Scan">
+		<Path>/Users/stefanmac/Downloads/Drivers/chromedriver</Path>
+		
+	</DB>
+        
+        <UserSettings PreferedDriver="Chrome">
+		
+		
+	</UserSettings>
 	
 </Paths>

@@ -1,9 +1,23 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Books>
 	<Book Name="Biology">
-		<FirstPageURL>/Users/stefanmac/Downloads/Drivers/chromedriver</FirstPageURL>
-                <LastPageURL>/Users/stefanmac/Downloads/Drivers/chromedriver</LastPageURL>
+		<FirstPageURL>https://katalyst01.cnx.org/contents/GFy_h8cu@11.5:fVAf83sY@13/Preface</FirstPageURL>
+                <LastPageURL>https://katalyst01.cnx.org/contents/GFy_h8cu@11.5:OlLnl474/Index</LastPageURL>
                 <AverageScanTime>800</AverageScanTime>
+                
+		
+	</Book>
+        <Book Name="Prealgebra">
+		<FirstPageURL>https://katalyst01.cnx.org/contents/GFy_h8cu@11.5:fVAf83sY@13/Preface</FirstPageURL>
+                <LastPageURL>https://katalyst01.cnx.org/contents/GFy_h8cu@11.5:OlLnl474/Index</LastPageURL>
+                <AverageScanTime>900</AverageScanTime>
+                
+		
+	</Book>
+        <Book Name="Calculus">
+		<FirstPageURL>https://katalyst01.cnx.org/contents/GFy_h8cu@11.5:fVAf83sY@13/Preface</FirstPageURL>
+                <LastPageURL>https://katalyst01.cnx.org/contents/GFy_h8cu@11.5:OlLnl474/Index</LastPageURL>
+                <AverageScanTime>1000</AverageScanTime>
                 
 		
 	</Book>

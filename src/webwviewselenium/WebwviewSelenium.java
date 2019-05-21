@@ -14,12 +14,13 @@ import org.openqa.selenium.*;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.chrome.ChromeOptions;
 import static webwviewselenium.ConsoleHandler.Console;
+import static webwviewselenium.XMLHendler.GetDriverPath;
+import static webwviewselenium.XMLHendler.GetDriverPreferedByUser;
+import static webwviewselenium.XMLHendler.GetFirstPageURL;
 
 public class WebwviewSelenium {
 
     public static void main(String[] args) throws IOException, AWTException {
-
-        Console();
 
         //JavascriptExecutor jse = (JavascriptExecutor)driver;
         //jse.executeScript("window.scrollTo(0,770)", "");
@@ -52,25 +53,6 @@ public class WebwviewSelenium {
             Logger.getLogger(WebwviewSelenium.class.getName()).log(Level.SEVERE, null, ex);
         }
         driver.close();
-    }
-
-    public static void ClearScanFolder() {
-        File clean = new File("/Users/stefanmac/Documents/WebviewTest/NewScan");
-        try {
-            FileUtils.cleanDirectory(clean);
-        } catch (IOException ex) {
-            Logger.getLogger(WebwviewSelenium.class.getName()).log(Level.SEVERE, null, ex);
-        }
-
-    }
-
-    public static void ClearTemplate() {
-        File clean = new File("/Users/stefanmac/Documents/WebviewTest/Tempalate");
-        try {
-            FileUtils.cleanDirectory(clean);
-        } catch (IOException ex) {
-            Logger.getLogger(WebwviewSelenium.class.getName()).log(Level.SEVERE, null, ex);
-        }
     }
 
     public static void ScanTemplate(WebDriver driver) {
@@ -160,19 +142,18 @@ public class WebwviewSelenium {
         }
     }
 
-    public static void ScreenMaker(String book, String[] Sections) {
-
-    }
-
-    public static void Compare() {
-
-        String TemplateDBUrl;
-        String ScannedDBUrl;
-
-        //test json vs temp comp 
-        //porownac robienie screena ze wzorem w eamilu bo cos nie styka z wycinaniem zdiecia 
-        //napisac sync zdiecia w momencie rozjechania contentu, wziac jedna linijke i dodawac y lub odjac az styknie i zrobic timeout na sync ktory ustawia user
-        // 
+    public static String GetBookID(String BookName) throws AWTException {
+        if (GetDriverPreferedByUser().equals("Chrome")) {
+            System.setProperty("webdriver.chrome.driver", GetDriverPath("Chrome"));
+            ChromeOptions chromeOptions = new ChromeOptions();
+            chromeOptions.addArguments("--headless");
+            chromeOptions.addArguments("window-size=1024,1500");
+            WebDriver driver = new ChromeDriver(chromeOptions);
+            BrowserStart(GetFirstPageURL(BookName), driver);
+            String id = driver.findElement(By.cssSelector("#main-content > div:nth-child(3) > div > div.metadata.tab-content > div > dl > dd:nth-child(4) > div")).getText();
+            return id;
+        }
+return null;
     }
 
 }

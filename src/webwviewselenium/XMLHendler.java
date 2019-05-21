@@ -12,6 +12,8 @@ import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
 import java.net.URISyntaxException;
+import java.util.ArrayList;
+import java.util.List;
 
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -22,13 +24,11 @@ import javax.xml.transform.TransformerException;
 import javax.xml.transform.TransformerFactory;
 import javax.xml.transform.dom.DOMSource;
 import javax.xml.transform.stream.StreamResult;
-import jdk.internal.org.xml.sax.SAXException;
 
-import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
-import org.w3c.dom.NamedNodeMap;
+
 
 public class XMLHendler {
 
@@ -54,46 +54,61 @@ public class XMLHendler {
         return 0;
     }
 
-    public static void JsonRead() { // file read
+    public static List<String> GetBooksAvaliabeforScan() { // file read
 
-        JSONParser parser = new JSONParser();
         try {
-            Object object = parser.parse(new FileReader("/Users/stefanmac/Documents/json.json"));
 
-            //convert Object to JSONObject
-            JSONObject jsonObject = (JSONObject) object;
+            File fXmlFile = new File(PathToBooksAvaliableForScan());
+            DocumentBuilderFactory dbFactory = DocumentBuilderFactory.newInstance();
+            DocumentBuilder dBuilder = dbFactory.newDocumentBuilder();
+            Document doc = (Document) dBuilder.parse(fXmlFile);
+            List<String> BookNames = new ArrayList<String>();
+            doc.getDocumentElement().normalize();
 
-            //Reading the String
-//            String name = (String) jsonObject.get("Name");
-//            Long age = (Long) jsonObject.get("Age");
-            //Reading the array
-            JSONArray countries = (JSONArray) jsonObject.get("1.0"); //array i nazwa
+            NodeList nList = doc.getElementsByTagName("Book");
 
-            //Printing all the values
-            System.out.println("Array:");
+            for (int temp = 0; temp < nList.getLength(); temp++) {
 
-            for (int a = 0; a < countries.size(); a++) {
+                Node nNode = nList.item(temp);
 
-                System.out.println(countries.get(a)); //sciaganie jednego stringa z indexu 1
+                if (nNode.getNodeType() == Node.ELEMENT_NODE) {
+                    Element eElement = (Element) nNode;
+                    String BookName = eElement.getAttribute("Name");
+
+                    BookNames.add(BookName);
+
+                }
+
             }
-
-//            for(Object country : countries)
-//            {
-//                System.out.println(country.toString());
-//            }
-        } catch (FileNotFoundException fe) {
-            fe.printStackTrace();
+            return BookNames;
         } catch (Exception e) {
             e.printStackTrace();
         }
+        return null;
 
     }
 
     public static String PathToXmlConfig() throws URISyntaxException {
 
         String PathToThisClass = new File(XMLHendler.class.getProtectionDomain().getCodeSource().getLocation().toURI()).getPath();
-        System.out.print(PathToThisClass);
+       
         return PathToThisClass.substring(0, PathToThisClass.length() - 13) + "XMLdb/Config.xml";
+
+    }
+
+    public static String PathToBooksAvaliableForScan() throws URISyntaxException {
+
+        String PathToThisClass = new File(XMLHendler.class.getProtectionDomain().getCodeSource().getLocation().toURI()).getPath();
+     
+        return PathToThisClass.substring(0, PathToThisClass.length() - 13) + "XMLdb/BooksAvailableForScan.xml";
+
+    }
+    
+     public static String PathToScreenShotDB() throws URISyntaxException {
+
+        String PathToThisClass = new File(XMLHendler.class.getProtectionDomain().getCodeSource().getLocation().toURI()).getPath();
+       
+        return PathToThisClass.substring(0, PathToThisClass.length() - 13) + "ScanDB";
 
     }
 
@@ -126,6 +141,41 @@ public class XMLHendler {
 
                 }
             }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return null;
+
+    }
+    
+     public static String GetDriverPreferedByUser() { 
+
+        try {
+
+            File fXmlFile = new File(PathToXmlConfig());
+            DocumentBuilderFactory dbFactory = DocumentBuilderFactory.newInstance();
+            DocumentBuilder dBuilder = dbFactory.newDocumentBuilder();
+            Document doc = (Document) dBuilder.parse(fXmlFile);
+
+            doc.getDocumentElement().normalize();
+
+            NodeList nList = doc.getElementsByTagName("UserSettings");
+
+            for (int temp = 0; temp < nList.getLength(); temp++) {
+
+                Node nNode = nList.item(temp);
+
+                if (nNode.getNodeType() == Node.ELEMENT_NODE) {
+
+                    Element eElement = (Element) nNode;
+                    String PreferedDriver = eElement.getAttribute("PreferedDriver");
+                    
+                        return PreferedDriver;
+
+                    }
+
+                }
+            
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -179,7 +229,43 @@ public class XMLHendler {
             tfe.printStackTrace();
         } catch (IOException ioe) {
             ioe.printStackTrace();
+        }}
+           public static String GetFirstPageURL(String BookName) { 
+
+        try {
+
+           File fXmlFile = new File(PathToBooksAvaliableForScan());
+            DocumentBuilderFactory dbFactory = DocumentBuilderFactory.newInstance();
+            DocumentBuilder dBuilder = dbFactory.newDocumentBuilder();
+            Document doc = (Document) dBuilder.parse(fXmlFile);
+            List<String> BookNames = new ArrayList<String>();
+            doc.getDocumentElement().normalize();
+
+            NodeList nList = doc.getElementsByTagName("Book");
+
+            for (int temp = 0; temp < nList.getLength(); temp++) {
+
+                Node nNode = nList.item(temp);
+
+                if (nNode.getNodeType() == Node.ELEMENT_NODE) {
+                    Element eElement = (Element) nNode;
+                    String Bookname = eElement.getAttribute("Name");
+                    
+                    if(BookName.equals(Bookname)){
+                        return eElement.getElementsByTagName("FirstPageURL").item(0).getTextContent();
+                    }
+                   
+                     
+                    }
+
+                }
+            
+        } catch (Exception e) {
+            e.printStackTrace();
         }
+        return null;
+
+    }
     }
 
-}
+

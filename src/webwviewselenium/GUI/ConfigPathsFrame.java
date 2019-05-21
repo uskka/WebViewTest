@@ -3,8 +3,9 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package webwviewselenium;
+package webwviewselenium.GUI;
 
+import webwviewselenium.GUI.SettingsFrame;
 import static java.awt.BorderLayout.CENTER;
 import java.awt.Font;
 import java.awt.GridLayout;
