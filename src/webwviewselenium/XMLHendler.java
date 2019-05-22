@@ -28,6 +28,7 @@ import javax.xml.transform.stream.StreamResult;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
+import org.xml.sax.SAXException;
 
 
 public class XMLHendler {
@@ -93,7 +94,22 @@ public class XMLHendler {
         String PathToThisClass = new File(XMLHendler.class.getProtectionDomain().getCodeSource().getLocation().toURI()).getPath();
        
         return PathToThisClass.substring(0, PathToThisClass.length() - 13) + "XMLdb/Config.xml";
+        
+           
 
+    }
+    
+    public static void SetDriversPathToDefult() throws URISyntaxException, TransformerException, TransformerConfigurationException, SAXException{
+        if(GetDriverPath("Chrome").equals("") || GetDriverPath("Firefox").equals("")) {
+            
+            
+        String PathToThisClass = new File(XMLHendler.class.getProtectionDomain().getCodeSource().getLocation().toURI()).getPath();
+       
+        String pathToChrome =  PathToThisClass.substring(0, PathToThisClass.length() - 13) + "WebDrivers/chromedriver";  
+        String pathToFireforx =  PathToThisClass.substring(0, PathToThisClass.length() - 13) + "WebDrivers/geckodriver"; 
+        changeDriverPath("Chrome",pathToChrome);
+        changeDriverPath("Firefox",pathToFireforx);
+        }
     }
 
     public static String PathToBooksAvaliableForScan() throws URISyntaxException {

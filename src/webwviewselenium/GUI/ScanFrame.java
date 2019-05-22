@@ -33,6 +33,7 @@ import javax.xml.transform.TransformerException;
 import static webwviewselenium.BookScan.FolderManager.NewScanFolderSetup;
 import static webwviewselenium.GUI.ComboBoxSearch.createComboBox;
 import static webwviewselenium.WebwviewSelenium.GetBookID;
+import static webwviewselenium.WebwviewSelenium.MakeScreenShots;
 import static webwviewselenium.XMLHendler.GetBooksAvaliabeforScan;
 
 public class ScanFrame extends JFrame implements ActionListener {
@@ -130,9 +131,10 @@ public class ScanFrame extends JFrame implements ActionListener {
 
             try {
     
-                String date = LocalDateTime.now().getSecond() + "." +  LocalDateTime.now().getMinute() + "." +LocalDateTime.now().getHour()+"."+LocalDateTime.now().getDayOfMonth()+"."+ LocalDateTime.now().getMonth()+"."+LocalDateTime.now().getYear();
+                String date = LocalDateTime.now().getSecond() + "." +  LocalDateTime.now().getMinute() + "." +LocalDateTime.now().getHour()+"."+LocalDateTime.now().getDayOfMonth()+"."+ LocalDateTime.now().getMonthValue()+"."+LocalDateTime.now().getYear();
                 
-                NewScanFolderSetup(SelectedBook, GetBookID(SelectedBook), date);
+                String folder = NewScanFolderSetup(SelectedBook, GetBookID(SelectedBook), date);
+                //MakeScreenShots("Biology",folder);
             } catch (URISyntaxException ex) {
                 Logger.getLogger(ScanFrame.class.getName()).log(Level.SEVERE, null, ex);
             } catch (ParserConfigurationException ex) {

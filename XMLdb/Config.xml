@@ -1,12 +1,15 @@
-<?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<Paths>
+<?xml version="1.0" encoding="UTF-8" standalone="no"?><Paths>
 	<WebDriver DriverType="Chrome">
-		<Path>/Users/stefanmac/Downloads/Drivers/chromedriver</Path>
+		<Path>/Users/stefanmac/NetBeansProjects/Similie/WebDrivers/chromedriver</Path>
+		
+	</WebDriver>
+        <WebDriver DriverType="Firefox">
+		<Path>/Users/stefanmac/NetBeansProjects/Similie/WebDrivers/geckodriver</Path>
 		
 	</WebDriver>
         
         <DB Type="Scan">
-		<Path>/Users/stefanmac/Downloads/Drivers/chromedriver</Path>
+		<Path>/Users/stefanmac/NetBeansProjects/Similie/ScanDB/</Path>
 		
 	</DB>
         

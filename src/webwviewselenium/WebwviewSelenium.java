@@ -1,5 +1,7 @@
 package webwviewselenium;
 
+
+
 import java.awt.AWTException;
 import java.awt.Robot;
 import java.awt.image.BufferedImage;
@@ -13,6 +15,8 @@ import org.apache.commons.io.FileUtils;
 import org.openqa.selenium.*;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.chrome.ChromeOptions;
+import org.openqa.selenium.firefox.FirefoxDriver;
+import org.openqa.selenium.firefox.FirefoxOptions;
 import static webwviewselenium.ConsoleHandler.Console;
 import static webwviewselenium.XMLHendler.GetDriverPath;
 import static webwviewselenium.XMLHendler.GetDriverPreferedByUser;
@@ -142,7 +146,7 @@ public class WebwviewSelenium {
         }
     }
 
-    public static String GetBookID(String BookName) throws AWTException {
+    public static String GetBookID(String BookName) throws AWTException { //chmod +x chromedriver
         if (GetDriverPreferedByUser().equals("Chrome")) {
             System.setProperty("webdriver.chrome.driver", GetDriverPath("Chrome"));
             ChromeOptions chromeOptions = new ChromeOptions();
@@ -150,10 +154,78 @@ public class WebwviewSelenium {
             chromeOptions.addArguments("window-size=1024,1500");
             WebDriver driver = new ChromeDriver(chromeOptions);
             BrowserStart(GetFirstPageURL(BookName), driver);
-            String id = driver.findElement(By.cssSelector("#main-content > div:nth-child(3) > div > div.metadata.tab-content > div > dl > dd:nth-child(4) > div")).getText();
+            driver.findElement(By.cssSelector("#metadata-tab > span")).click();
+            String id = driver.findElement(By.xpath("//*[@id=\"main-content\"]/div[3]/div/div[4]/div/dl/dd[2]")).getText();
+            driver.quit();
             return id;
+        } else if (GetDriverPreferedByUser().equals("Firefox")) {
+            System.setProperty("webdriver.gecko.driver", GetDriverPath("Firefox"));
+            FirefoxOptions firefoxOptions = new FirefoxOptions();
+            firefoxOptions.addArguments("--headless");
+            firefoxOptions.addArguments("window-size=1024,1500");
+            WebDriver driver = new FirefoxDriver(firefoxOptions);
+            BrowserStart(GetFirstPageURL(BookName), driver);
+            driver.findElement(By.cssSelector("#metadata-tab > span")).click();
+            String id = driver.findElement(By.xpath("//*[@id=\"main-content\"]/div[3]/div/div[4]/div/dl/dd[2]")).getText();
+            driver.quit();
+            return id;
+
         }
-return null;
+        return null;
     }
+
+    public static String MakeScreenShots(String BookName, String Folder) throws AWTException { //chmod +x chromedriver
+        if (GetDriverPreferedByUser().equals("Chrome")) {
+            System.setProperty("webdriver.chrome.driver", GetDriverPath("Chrome"));
+            ChromeOptions chromeOptions = new ChromeOptions();
+            chromeOptions.addArguments("--headless");
+            
+            WebDriver driver = new ChromeDriver(chromeOptions);
+            BrowserStart(GetFirstPageURL(BookName), driver);
+            String pageUrl = driver.getCurrentUrl();
+            
+            //poukladac ten syf
+            
+            
+             while (driver.getCurrentUrl() != "https://katalyst01.cnx.org/contents/oxzXkyFi@3.7:wmtTf1DA/Index") {}
+             ((JavascriptExecutor) driver).executeScript("document.getElementsByClassName('next')[0].click()");
+            int ScrollNumber = 150;
+            ((JavascriptExecutor) driver).executeScript("window.scrollTo(0," + ScrollNumber + ")");
+ File screenshot = ((TakesScreenshot) driver).getScreenshotAs(OutputType.FILE);
+       //  String FileName = "Screen: " + i;
+            //    String DBPath = "/Users/stefanmac/Documents/WebviewTest/Tempalate/" + FileName + ".png";
+             //   File Screenshot = new File(DBPath);
+            //    FileUtils.copyFile(screenshot, Screenshot);
+                ((JavascriptExecutor) driver).executeScript(" return document.body.offsetHeight");
+                 ScrollNumber += 1350;
+                 
+            driver.quit();
+
+        } else if (GetDriverPreferedByUser().equals("Firefox")) {
+            System.setProperty("webdriver.gecko.driver", GetDriverPath("Firefox"));
+            FirefoxOptions firefoxOptions = new FirefoxOptions();
+            firefoxOptions.addArguments("--headless");
+            //firefoxOptions.addArguments("window-size=1024,1500");
+            WebDriver driver = new FirefoxDriver(firefoxOptions);
+            BrowserStart(GetFirstPageURL(BookName), driver);
+            
+            String pageUrl = driver.getCurrentUrl();
+           // Shutterbug.shootPage(driver, ScrollStrategy.BOTH_DIRECTIONS).save(Folder);
+            driver.quit();
+
+        }
+        return null;
+    }
+    
+        public static void checkIfIsReady(WebDriver driver) throws InterruptedException {
+
+  JavascriptExecutor js = (JavascriptExecutor)driver;
+
+
+  //Initially bellow given if condition will check ready state of page.
+  while (!js.executeScript("return document.readyState").toString().equals("complete")){ 
+   Thread.sleep(500);
+    
+  }}
 
 }

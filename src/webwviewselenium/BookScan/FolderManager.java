@@ -43,7 +43,7 @@ public class FolderManager {
 
     }
 
-    public static void NewScanFolderSetup(String BookName, String BookID, String Date) throws URISyntaxException, ParserConfigurationException, TransformerConfigurationException, TransformerException {
+    public static String NewScanFolderSetup(String BookName, String BookID, String Date) throws URISyntaxException, ParserConfigurationException, TransformerConfigurationException, TransformerException {
 
         File folder = new File(PathToScreenShotDB());
         File[] listOfFiles = folder.listFiles();
@@ -104,12 +104,16 @@ public class FolderManager {
             int MaxNumberFromFolderNames = 1;
             StreamResult result = new StreamResult(new File(PathToScreenShotDB() + "/" + MaxNumberFromFolderNames + "/info.xml"));
             transformer.transform(source, result);
+            String res = PathToScreenShotDB() + "/" + MaxNumberFromFolderNames;
+            return res;
         } else {
             Collections.sort(FolderNumbers);
 
             int MaxNumberFromFolderNames = FolderNumbers.get(FolderNumbers.size()  -1)+1;
             StreamResult result = new StreamResult(new File(PathToScreenShotDB() + "/" + MaxNumberFromFolderNames + "/info.xml"));
             transformer.transform(source, result);
+            String res = PathToScreenShotDB() + "/" + MaxNumberFromFolderNames;
+            return res;
         }
 
     }
