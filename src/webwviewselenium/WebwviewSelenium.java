@@ -1,10 +1,9 @@
 package webwviewselenium;
 
-
-
 import java.awt.AWTException;
 import java.awt.Robot;
 import java.awt.image.BufferedImage;
+import java.awt.image.RenderedImage;
 import java.io.File;
 import java.io.IOException;
 import java.util.Scanner;
@@ -174,58 +173,95 @@ public class WebwviewSelenium {
         return null;
     }
 
-    public static String MakeScreenShots(String BookName, String Folder) throws AWTException { //chmod +x chromedriver
+    public static String MakeScreenShots(String BookName, String Folder) throws AWTException, InterruptedException, IOException { //chmod +x chromedriver
+
         if (GetDriverPreferedByUser().equals("Chrome")) {
             System.setProperty("webdriver.chrome.driver", GetDriverPath("Chrome"));
             ChromeOptions chromeOptions = new ChromeOptions();
             chromeOptions.addArguments("--headless");
-            
+            chromeOptions.addArguments("window-size=1024,1500");
+
             WebDriver driver = new ChromeDriver(chromeOptions);
             BrowserStart(GetFirstPageURL(BookName), driver);
-            String pageUrl = driver.getCurrentUrl();
-            
-            //poukladac ten syf
-            
-            
-             while (driver.getCurrentUrl() != "https://katalyst01.cnx.org/contents/oxzXkyFi@3.7:wmtTf1DA/Index") {}
-             ((JavascriptExecutor) driver).executeScript("document.getElementsByClassName('next')[0].click()");
-            int ScrollNumber = 150;
-            ((JavascriptExecutor) driver).executeScript("window.scrollTo(0," + ScrollNumber + ")");
- File screenshot = ((TakesScreenshot) driver).getScreenshotAs(OutputType.FILE);
-       //  String FileName = "Screen: " + i;
-            //    String DBPath = "/Users/stefanmac/Documents/WebviewTest/Tempalate/" + FileName + ".png";
-             //   File Screenshot = new File(DBPath);
-            //    FileUtils.copyFile(screenshot, Screenshot);
-                ((JavascriptExecutor) driver).executeScript(" return document.body.offsetHeight");
-                 ScrollNumber += 1350;
-                 
+
+            boolean isThisLastPage = false;
+            while (!driver.getCurrentUrl().endsWith("/Index")) {
+
+                int ScrollNumber = 150;
+                checkIfIsReady(driver);
+                Number PageHeight = (Number) ((JavascriptExecutor) driver).executeScript(" return document.body.offsetHeight");
+                Double NumberOfScreenShots = PageHeight.doubleValue() / 1350;
+                for (int i = 0; i < NumberOfScreenShots; i++) {
+
+                    ((JavascriptExecutor) driver).executeScript("window.scrollTo(0," + ScrollNumber + ")");
+                    File screenshot = ((TakesScreenshot) driver).getScreenshotAs(OutputType.FILE);
+
+                    String FileName = driver.getCurrentUrl().replace("/", "+") + "__" + i;
+                    String DBPath = Folder + "/" + FileName + ".png";
+
+                    FileUtils.copyFile(screenshot, new File(DBPath));
+
+                    ScrollNumber += 1350;
+
+                }
+                if (driver.getCurrentUrl().endsWith("/Index")) {
+                    isThisLastPage = true;
+                } else {
+                    ((JavascriptExecutor) driver).executeScript("document.getElementsByClassName('next')[0].click()");
+                }
+            }
+
             driver.quit();
 
         } else if (GetDriverPreferedByUser().equals("Firefox")) {
             System.setProperty("webdriver.gecko.driver", GetDriverPath("Firefox"));
             FirefoxOptions firefoxOptions = new FirefoxOptions();
             firefoxOptions.addArguments("--headless");
-            //firefoxOptions.addArguments("window-size=1024,1500");
+            firefoxOptions.addArguments("window-size=1024,1500");
             WebDriver driver = new FirefoxDriver(firefoxOptions);
             BrowserStart(GetFirstPageURL(BookName), driver);
-            
-            String pageUrl = driver.getCurrentUrl();
-           // Shutterbug.shootPage(driver, ScrollStrategy.BOTH_DIRECTIONS).save(Folder);
-            driver.quit();
+            boolean isThisLastPage = false;
+            while (!driver.getCurrentUrl().endsWith("/Index")) {
 
+                int ScrollNumber = 150;
+                checkIfIsReady(driver);
+                Number PageHeight = (Number) ((JavascriptExecutor) driver).executeScript(" return document.body.offsetHeight");
+                Double NumberOfScreenShots = PageHeight.doubleValue() / 1350;
+                for (int i = 0; i < NumberOfScreenShots; i++) {
+
+                    ((JavascriptExecutor) driver).executeScript("window.scrollTo(0," + ScrollNumber + ")");
+                    File screenshot = ((TakesScreenshot) driver).getScreenshotAs(OutputType.FILE);
+
+                    String FileName = driver.getCurrentUrl().replace("/", "+") + "__" + i;
+                    String DBPath = Folder + "/" + FileName + ".png";
+
+                    FileUtils.copyFile(screenshot, new File(DBPath));
+
+                    ScrollNumber += 1350;
+
+                }
+                if (driver.getCurrentUrl().endsWith("/Index")) {
+                    isThisLastPage = true;
+                } else {
+                    ((JavascriptExecutor) driver).executeScript("document.getElementsByClassName('next')[0].click()");
+                }
+            }
+
+            driver.quit();
         }
         return null;
     }
-    
-        public static void checkIfIsReady(WebDriver driver) throws InterruptedException {
 
-  JavascriptExecutor js = (JavascriptExecutor)driver;
+    public static void checkIfIsReady(WebDriver driver) throws InterruptedException {
 
+        JavascriptExecutor js = (JavascriptExecutor) driver;
 
-  //Initially bellow given if condition will check ready state of page.
-  while (!js.executeScript("return document.readyState").toString().equals("complete")){ 
-   Thread.sleep(500);
-    
-  }}
+        //Initially bellow given if condition will check ready state of page.
+        while (!js.executeScript("return document.readyState").toString().equals("complete")) {
+            Thread.sleep(200);
+
+        }
+        Thread.sleep(2000);
+    }
 
 }

@@ -30,7 +30,6 @@ import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
 import org.xml.sax.SAXException;
 
-
 public class XMLHendler {
 
     public static int NuberOfSections(String book) throws FileNotFoundException, ParseException {
@@ -92,38 +91,52 @@ public class XMLHendler {
     public static String PathToXmlConfig() throws URISyntaxException {
 
         String PathToThisClass = new File(XMLHendler.class.getProtectionDomain().getCodeSource().getLocation().toURI()).getPath();
-       
+
         return PathToThisClass.substring(0, PathToThisClass.length() - 13) + "XMLdb/Config.xml";
-        
-           
 
     }
-    
-    public static void SetDriversPathToDefult() throws URISyntaxException, TransformerException, TransformerConfigurationException, SAXException{
-        if(GetDriverPath("Chrome").equals("") || GetDriverPath("Firefox").equals("")) {
-            
-            
-        String PathToThisClass = new File(XMLHendler.class.getProtectionDomain().getCodeSource().getLocation().toURI()).getPath();
-       
-        String pathToChrome =  PathToThisClass.substring(0, PathToThisClass.length() - 13) + "WebDrivers/chromedriver";  
-        String pathToFireforx =  PathToThisClass.substring(0, PathToThisClass.length() - 13) + "WebDrivers/geckodriver"; 
-        changeDriverPath("Chrome",pathToChrome);
-        changeDriverPath("Firefox",pathToFireforx);
+
+    public static void SetDriversPathToDefult() throws URISyntaxException, TransformerException, TransformerConfigurationException, SAXException {
+        if (GetDriverPath("Chrome").equals("") || GetDriverPath("Firefox").equals("")) {
+
+            String PathToThisClass = new File(XMLHendler.class.getProtectionDomain().getCodeSource().getLocation().toURI()).getPath();
+
+            if (System.getProperty("os.name").startsWith("Windows")) {
+
+                String pathToChrome = PathToThisClass.substring(0, PathToThisClass.length() - 13) + "WebDrivers/WindowsDrivers/chromedriver.exe";
+                String pathToFireforx = PathToThisClass.substring(0, PathToThisClass.length() - 13) + "WebDrivers/WindowsDrivers/geckodriver.exe";
+                changeDriverPath("Chrome", pathToChrome);
+                changeDriverPath("Firefox", pathToFireforx);
+
+            } else if (System.getProperty("os.name").startsWith("Mac")) {
+
+                String pathToChrome = PathToThisClass.substring(0, PathToThisClass.length() - 13) + "WebDrivers/MacDrivers/chromedriver";
+                String pathToFireforx = PathToThisClass.substring(0, PathToThisClass.length() - 13) + "WebDrivers/MacDrivers/geckodriver";
+                changeDriverPath("Chrome", pathToChrome);
+                changeDriverPath("Firefox", pathToFireforx);
+                
+            } else {
+
+                String pathToChrome = PathToThisClass.substring(0, PathToThisClass.length() - 13) + "WebDrivers/LinuxDrivers/chromedriver";
+                String pathToFireforx = PathToThisClass.substring(0, PathToThisClass.length() - 13) + "WebDrivers/LinuxDrivers/geckodriver";
+                changeDriverPath("Chrome", pathToChrome);
+                changeDriverPath("Firefox", pathToFireforx);
+            }
         }
     }
 
     public static String PathToBooksAvaliableForScan() throws URISyntaxException {
 
         String PathToThisClass = new File(XMLHendler.class.getProtectionDomain().getCodeSource().getLocation().toURI()).getPath();
-     
+
         return PathToThisClass.substring(0, PathToThisClass.length() - 13) + "XMLdb/BooksAvailableForScan.xml";
 
     }
-    
-     public static String PathToScreenShotDB() throws URISyntaxException {
+
+    public static String PathToScreenShotDB() throws URISyntaxException {
 
         String PathToThisClass = new File(XMLHendler.class.getProtectionDomain().getCodeSource().getLocation().toURI()).getPath();
-       
+
         return PathToThisClass.substring(0, PathToThisClass.length() - 13) + "ScanDB";
 
     }
@@ -163,8 +176,8 @@ public class XMLHendler {
         return null;
 
     }
-    
-     public static String GetDriverPreferedByUser() { 
+
+    public static String GetDriverPreferedByUser() {
 
         try {
 
@@ -185,13 +198,13 @@ public class XMLHendler {
 
                     Element eElement = (Element) nNode;
                     String PreferedDriver = eElement.getAttribute("PreferedDriver");
-                    
-                        return PreferedDriver;
 
-                    }
+                    return PreferedDriver;
 
                 }
-            
+
+            }
+
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -245,12 +258,14 @@ public class XMLHendler {
             tfe.printStackTrace();
         } catch (IOException ioe) {
             ioe.printStackTrace();
-        }}
-           public static String GetFirstPageURL(String BookName) { 
+        }
+    }
+
+    public static String GetFirstPageURL(String BookName) {
 
         try {
 
-           File fXmlFile = new File(PathToBooksAvaliableForScan());
+            File fXmlFile = new File(PathToBooksAvaliableForScan());
             DocumentBuilderFactory dbFactory = DocumentBuilderFactory.newInstance();
             DocumentBuilder dBuilder = dbFactory.newDocumentBuilder();
             Document doc = (Document) dBuilder.parse(fXmlFile);
@@ -266,22 +281,19 @@ public class XMLHendler {
                 if (nNode.getNodeType() == Node.ELEMENT_NODE) {
                     Element eElement = (Element) nNode;
                     String Bookname = eElement.getAttribute("Name");
-                    
-                    if(BookName.equals(Bookname)){
+
+                    if (BookName.equals(Bookname)) {
                         return eElement.getElementsByTagName("FirstPageURL").item(0).getTextContent();
-                    }
-                   
-                     
                     }
 
                 }
-            
+
+            }
+
         } catch (Exception e) {
             e.printStackTrace();
         }
         return null;
 
     }
-    }
-
-
+}

@@ -16,6 +16,7 @@ import java.awt.Insets;
 import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.IOException;
 import java.net.URISyntaxException;
 import java.time.LocalDateTime;
 import java.util.Calendar;
@@ -134,7 +135,7 @@ public class ScanFrame extends JFrame implements ActionListener {
                 String date = LocalDateTime.now().getSecond() + "." +  LocalDateTime.now().getMinute() + "." +LocalDateTime.now().getHour()+"."+LocalDateTime.now().getDayOfMonth()+"."+ LocalDateTime.now().getMonthValue()+"."+LocalDateTime.now().getYear();
                 
                 String folder = NewScanFolderSetup(SelectedBook, GetBookID(SelectedBook), date);
-                //MakeScreenShots("Biology",folder);
+                MakeScreenShots("Biology",folder);
             } catch (URISyntaxException ex) {
                 Logger.getLogger(ScanFrame.class.getName()).log(Level.SEVERE, null, ex);
             } catch (ParserConfigurationException ex) {
@@ -142,6 +143,10 @@ public class ScanFrame extends JFrame implements ActionListener {
             } catch (TransformerException ex) {
                 Logger.getLogger(ScanFrame.class.getName()).log(Level.SEVERE, null, ex);
             } catch (AWTException ex) {
+                Logger.getLogger(ScanFrame.class.getName()).log(Level.SEVERE, null, ex);
+            } catch (InterruptedException ex) {
+                Logger.getLogger(ScanFrame.class.getName()).log(Level.SEVERE, null, ex);
+            } catch (IOException ex) {
                 Logger.getLogger(ScanFrame.class.getName()).log(Level.SEVERE, null, ex);
             }
 
