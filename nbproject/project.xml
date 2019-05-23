@@ -5,9 +5,7 @@
         <data xmlns="http://www.netbeans.org/ns/j2se-project/3">
             <name>Similie</name>
             <source-roots>
-                <root id="src.Drivers.dir"/>
                 <root id="src.dir"/>
-                <root id="src.Drivers.dir"/>
             </source-roots>
             <test-roots>
                 <root id="test.src.dir"/>
