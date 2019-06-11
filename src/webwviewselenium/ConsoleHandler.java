@@ -10,8 +10,7 @@ import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.chrome.ChromeOptions;
 
-import static webwviewselenium.WebwviewSelenium.NewLocalScan;
-import static webwviewselenium.WebwviewSelenium.ScanTemplate;
+
 import webwviewselenium.WebwviewSelenium;
 
 public class ConsoleHandler {
@@ -71,7 +70,7 @@ public class ConsoleHandler {
                     break;
 
                 case "NewLocalScan":
-                    NewLocalScan(driver);
+                
                     break;
 
                 case "ClearScanFolder":

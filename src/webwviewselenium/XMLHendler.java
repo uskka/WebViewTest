@@ -10,6 +10,7 @@ import java.io.File;
 
 import java.io.FileNotFoundException;
 import java.io.FileReader;
+import java.io.FilenameFilter;
 import java.io.IOException;
 import java.net.URISyntaxException;
 import java.util.ArrayList;
@@ -114,7 +115,7 @@ public class XMLHendler {
                 String pathToFireforx = PathToThisClass.substring(0, PathToThisClass.length() - 13) + "WebDrivers/MacDrivers/geckodriver";
                 changeDriverPath("Chrome", pathToChrome);
                 changeDriverPath("Firefox", pathToFireforx);
-                
+
             } else {
 
                 String pathToChrome = PathToThisClass.substring(0, PathToThisClass.length() - 13) + "WebDrivers/LinuxDrivers/chromedriver";
@@ -296,4 +297,63 @@ public class XMLHendler {
         return null;
 
     }
+
+    public static List<String> GetScans() {
+
+        try {
+
+            File file = new File(PathToScreenShotDB());
+            String[] directories = file.list(new FilenameFilter() {
+                @Override
+                public boolean accept(File current, String name) {
+                    return new File(current, name).isDirectory();
+                }
+            });
+            List<String> BookNames = new ArrayList<String>();
+            for (int i = 0; i < directories.length; i++) {
+                String FolderNumber = directories[i];
+                String ScanFullPath = PathToScreenShotDB().concat("/") + FolderNumber + "/info.xml";
+                String FolderPathForDeleting = PathToScreenShotDB().concat("/") + FolderNumber;
+
+                try {
+
+                    File fXmlFile = new File(ScanFullPath);
+                    DocumentBuilderFactory dbFactory = DocumentBuilderFactory.newInstance();
+                    DocumentBuilder dBuilder = dbFactory.newDocumentBuilder();
+                    Document doc = (Document) dBuilder.parse(fXmlFile);
+
+                    doc.getDocumentElement().normalize();
+
+                    NodeList nList = doc.getElementsByTagName("Book");
+
+                    for (int temp = 0; temp < nList.getLength(); temp++) {
+
+                        Node nNode = nList.item(temp);
+
+                        if (nNode.getNodeType() == Node.ELEMENT_NODE) {
+                            Element eElement = (Element) nNode;
+                            String Bookname = eElement.getAttribute("Name");
+                            String date = eElement.getElementsByTagName("Date").item(0).getTextContent();
+                            String output = Bookname + "::" + date + "<>" + FolderPathForDeleting;
+                            BookNames.add(output);
+
+                        }
+
+                    }
+
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+
+            }
+
+            return BookNames;
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return null;
+
+    }
+
 }

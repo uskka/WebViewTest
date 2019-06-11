@@ -2,21 +2,14 @@ package webwviewselenium;
 
 import java.awt.AWTException;
 import java.awt.Robot;
-import java.awt.image.BufferedImage;
-import java.awt.image.RenderedImage;
 import java.io.File;
 import java.io.IOException;
-import java.util.Scanner;
-import java.util.logging.Level;
-import java.util.logging.Logger;
-import javax.imageio.ImageIO;
 import org.apache.commons.io.FileUtils;
 import org.openqa.selenium.*;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.chrome.ChromeOptions;
 import org.openqa.selenium.firefox.FirefoxDriver;
 import org.openqa.selenium.firefox.FirefoxOptions;
-import static webwviewselenium.ConsoleHandler.Console;
 import static webwviewselenium.XMLHendler.GetDriverPath;
 import static webwviewselenium.XMLHendler.GetDriverPreferedByUser;
 import static webwviewselenium.XMLHendler.GetFirstPageURL;
@@ -41,39 +34,8 @@ public class WebwviewSelenium {
 //driver.close();
     }
 
-    public static void NewLocalScan(WebDriver driver) {
-        try {
-            BrowserStart("file:////Users/stefanmac/Downloads/1.1 The Science of Biology - Biology - OpenStax CNX.htm", driver);
-        } catch (AWTException ex) {
-            Logger.getLogger(WebwviewSelenium.class.getName()).log(Level.SEVERE, null, ex);
-        }
 
-        WebPageContentXY(driver);
 
-        try {
-            MakeScreenShot(driver, 300, 300, 600, 600, 0);
-        } catch (IOException ex) {
-            Logger.getLogger(WebwviewSelenium.class.getName()).log(Level.SEVERE, null, ex);
-        }
-        driver.close();
-    }
-
-    public static void ScanTemplate(WebDriver driver) {
-        try {
-            BrowserStart("https://katalyst01.cnx.org/contents/GFy_h8cu@11.2:agVo2CPX@12/1-1-The-Science-of-Biology", driver);
-        } catch (AWTException ex) {
-            Logger.getLogger(WebwviewSelenium.class.getName()).log(Level.SEVERE, null, ex);
-        }
-
-        WebPageContentXY(driver);
-
-        try {
-            MakeScreenShot(driver, 300, 300, 600, 600, 1);
-        } catch (IOException ex) {
-            Logger.getLogger(WebwviewSelenium.class.getName()).log(Level.SEVERE, null, ex);
-        }
-        driver.close();
-    }
 
     public static int BrowserStart(String WebsiteFirstPageUrl, WebDriver driver) throws AWTException { //opens browser returns 1 if web page is loaded, 2 for timeout, 0 for unknown error
 
@@ -113,37 +75,7 @@ public class WebwviewSelenium {
 
     }
 
-    public static void MakeScreenShot(WebDriver driver, int startX, int startY, int endX, int endY, int type) throws IOException {
-        //makes number screenshots based on the output from WebPageContentXY func
-
-        int NumberOfScreenShots = WebPageContentXY(driver);
-        int ScrollNumber = 150;
-
-        for (int i = 0; i < NumberOfScreenShots; i++) {
-
-            ((JavascriptExecutor) driver).executeScript("window.scrollTo(0," + ScrollNumber + ")");
-
-            System.out.println(((JavascriptExecutor) driver).executeScript(" return document.body.offsetHeight"));
-
-            File screenshot = ((TakesScreenshot) driver).getScreenshotAs(OutputType.FILE);
-            BufferedImage fullImg = ImageIO.read(screenshot);
-            BufferedImage eleScreenshot = fullImg.getSubimage(1, 1, 1, 1);
-
-            if (type == 1) {
-                String FileName = "Screen: " + i;
-                String DBPath = "/Users/stefanmac/Documents/WebviewTest/Tempalate/" + FileName + ".png";
-                File Screenshot = new File(DBPath);
-                FileUtils.copyFile(screenshot, Screenshot);
-            } else if (type == 0) {
-                String FileName = "Screen: " + i;
-                String DBPath = "/Users/stefanmac/Documents/WebviewTest/NewScan/" + FileName + ".png";
-                File Screenshot = new File(DBPath);
-                FileUtils.copyFile(screenshot, Screenshot);
-            }
-
-            ScrollNumber += 1350;
-        }
-    }
+ 
 
     public static String GetBookID(String BookName) throws AWTException { //chmod +x chromedriver
         if (GetDriverPreferedByUser().equals("Chrome")) {

@@ -1,8 +1,5 @@
 package webwviewselenium.GUI;
 
-import java.awt.Color;
-import java.awt.GraphicsDevice;
-import java.awt.GraphicsEnvironment;
 import java.awt.GridLayout;
 import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
@@ -10,8 +7,6 @@ import java.awt.event.ActionListener;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLayeredPane;
-import javax.swing.JPanel;
-import org.openqa.selenium.Dimension;
 
 public class MainFrame extends JFrame implements ActionListener {
 
