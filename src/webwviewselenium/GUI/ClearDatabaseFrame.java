@@ -55,8 +55,7 @@ public class ClearDatabaseFrame extends JFrame implements ActionListener {
 
         ScansAvaliable = GetScans();
 
-        
-   for (int i = 0; i < GetScans().size(); i++) {
+        for (int i = 0; i < GetScans().size(); i++) {
             final String[] parts = GetScans().get(i).split("<>");
             ScanInfo[i] = parts[0];
             ScanPaths[i] = parts[1];
@@ -111,11 +110,11 @@ public class ClearDatabaseFrame extends JFrame implements ActionListener {
             String[] ScanInfo = new String[GetScans().size()];
             String[] ScanPaths = new String[GetScans().size()];
             for (int i = 0; i < GetScans().size(); i++) {
-            final String[] parts = GetScans().get(i).split("<>");
-            ScanInfo[i] = parts[0];
-            ScanPaths[i] = parts[1];
+                final String[] parts = GetScans().get(i).split("<>");
+                ScanInfo[i] = parts[0];
+                ScanPaths[i] = parts[1];
 
-        }
+            }
             bookList.removeAllItems();
             for (String s : ScanInfo) {
                 bookList.addItem(s);

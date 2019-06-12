@@ -10,6 +10,8 @@ import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.chrome.ChromeOptions;
 import org.openqa.selenium.firefox.FirefoxDriver;
 import org.openqa.selenium.firefox.FirefoxOptions;
+import org.openqa.selenium.safari.SafariDriver;
+import org.openqa.selenium.safari.SafariOptions;
 import static webwviewselenium.XMLHendler.GetDriverPath;
 import static webwviewselenium.XMLHendler.GetDriverPreferedByUser;
 import static webwviewselenium.XMLHendler.GetFirstPageURL;
@@ -151,6 +153,41 @@ public class WebwviewSelenium {
             firefoxOptions.addArguments("--headless");
             firefoxOptions.addArguments("window-size=1024,1500");
             WebDriver driver = new FirefoxDriver(firefoxOptions);
+            BrowserStart(GetFirstPageURL(BookName), driver);
+            boolean isThisLastPage = false;
+            while (!driver.getCurrentUrl().endsWith("/Index")) {
+
+                int ScrollNumber = 150;
+                checkIfIsReady(driver);
+                Number PageHeight = (Number) ((JavascriptExecutor) driver).executeScript(" return document.body.offsetHeight");
+                Double NumberOfScreenShots = PageHeight.doubleValue() / 1350;
+                for (int i = 0; i < NumberOfScreenShots; i++) {
+
+                    ((JavascriptExecutor) driver).executeScript("window.scrollTo(0," + ScrollNumber + ")");
+                    File screenshot = ((TakesScreenshot) driver).getScreenshotAs(OutputType.FILE);
+
+                    String FileName = driver.getCurrentUrl().replace("/", "+") + "__" + i;
+                    String DBPath = Folder + "/" + FileName + ".png";
+
+                    FileUtils.copyFile(screenshot, new File(DBPath));
+
+                    ScrollNumber += 1350;
+
+                }
+                if (driver.getCurrentUrl().endsWith("/Index")) {
+                    isThisLastPage = true;
+                } else {
+                    ((JavascriptExecutor) driver).executeScript("document.getElementsByClassName('next')[0].click()");
+                }
+            }
+
+            driver.quit();
+        }
+        else if (GetDriverPreferedByUser().equals("Safari")) {
+            
+            SafariOptions safariOptions = new SafariOptions();
+            
+            WebDriver driver = new SafariDriver(safariOptions);
             BrowserStart(GetFirstPageURL(BookName), driver);
             boolean isThisLastPage = false;
             while (!driver.getCurrentUrl().endsWith("/Index")) {
