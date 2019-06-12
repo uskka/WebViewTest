@@ -36,9 +36,6 @@ public class WebwviewSelenium {
 //driver.close();
     }
 
-
-
-
     public static int BrowserStart(String WebsiteFirstPageUrl, WebDriver driver) throws AWTException { //opens browser returns 1 if web page is loaded, 2 for timeout, 0 for unknown error
 
         driver.navigate().to(WebsiteFirstPageUrl);
@@ -77,8 +74,6 @@ public class WebwviewSelenium {
 
     }
 
- 
-
     public static String GetBookID(String BookName) throws AWTException { //chmod +x chromedriver
         if (GetDriverPreferedByUser().equals("Chrome")) {
             System.setProperty("webdriver.chrome.driver", GetDriverPath("Chrome"));
@@ -97,6 +92,16 @@ public class WebwviewSelenium {
             firefoxOptions.addArguments("--headless");
             firefoxOptions.addArguments("window-size=1024,1500");
             WebDriver driver = new FirefoxDriver(firefoxOptions);
+            BrowserStart(GetFirstPageURL(BookName), driver);
+            driver.findElement(By.cssSelector("#metadata-tab > span")).click();
+            String id = driver.findElement(By.xpath("//*[@id=\"main-content\"]/div[3]/div/div[4]/div/dl/dd[2]")).getText();
+            driver.quit();
+            return id;
+
+        } else if (GetDriverPreferedByUser().equals("Safari")) {
+            SafariOptions safariOptions = new SafariOptions();
+
+            WebDriver driver = new SafariDriver(safariOptions);
             BrowserStart(GetFirstPageURL(BookName), driver);
             driver.findElement(By.cssSelector("#metadata-tab > span")).click();
             String id = driver.findElement(By.xpath("//*[@id=\"main-content\"]/div[3]/div/div[4]/div/dl/dd[2]")).getText();
@@ -182,11 +187,10 @@ public class WebwviewSelenium {
             }
 
             driver.quit();
-        }
-        else if (GetDriverPreferedByUser().equals("Safari")) {
-            
+        } else if (GetDriverPreferedByUser().equals("Safari")) {
+
             SafariOptions safariOptions = new SafariOptions();
-            
+
             WebDriver driver = new SafariDriver(safariOptions);
             BrowserStart(GetFirstPageURL(BookName), driver);
             boolean isThisLastPage = false;
